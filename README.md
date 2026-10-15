@@ -14,7 +14,7 @@ Final result on the competition's hidden test set (one submission allowed):
 | :--- | :---: |
 | Accuracy | **78.37%** |
 | Macro F1-score | **72.86** |
-| Leaderboard rank | [TODO: rank / number of participants] |
+
 
 Live leaderboard: [CXR Leaderboard](https://tasneem-mselim.github.io/CXR/)
 
@@ -23,16 +23,16 @@ Live leaderboard: [CXR Leaderboard](https://tasneem-mselim.github.io/CXR/)
 ## 🎯 Task
 
 - **Input:** a chest X-ray image
-- **Output:** `0` = NORMAL, `1` = PNEUMONIA [TODO: confirm label mapping]
+- **Output:** `0` = NORMAL, `1` = PNEUMONIA 
 - **Primary metric:** Macro F1 (accounts for class imbalance), plus accuracy
 
 ## 📂 Dataset
 
 [Chest X-Ray Images (Pneumonia)](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia) (Kermany et al., 2018), organized as `train/` and `test/`.
 
-- Training images used: [TODO: number]
-- Class distribution: [TODO: e.g. NORMAL x / PNEUMONIA y]
-- Validation strategy: [TODO: how you split train/validation]
+- Training images used: [5,863 ]
+- Class distribution: [ NORMAL 0 / PNEUMONIA 1]
+- Validation strategy: [3 folders (train, test, val)]
 - Rules: CNNs and transfer learning allowed; no external medical datasets.
 
 ## 🧠 My Approach
