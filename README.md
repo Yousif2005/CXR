@@ -8,6 +8,9 @@ Binary classification of chest X-ray images (**NORMAL** vs **PNEUMONIA**) using 
 
 ## 📊 Results
 
+<img width="990" height="374" alt="CXR" src="https://github.com/user-attachments/assets/64ef0608-37aa-4a36-bdfb-14b3fcbcdbf0" />
+
+
 Final result on the competition's hidden test set (one submission allowed):
 
 | Metric | Score |
