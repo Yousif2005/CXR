@@ -15,7 +15,6 @@ Final result on the competition's hidden test set (one submission allowed):
 | Accuracy | **78.37%** |
 | Macro F1-score | **72.86** |
 
-
 Live leaderboard: [CXR Leaderboard](https://tasneem-mselim.github.io/CXR/)
 
 ---
@@ -30,49 +29,53 @@ Live leaderboard: [CXR Leaderboard](https://tasneem-mselim.github.io/CXR/)
 
 [Chest X-Ray Images (Pneumonia)](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia) (Kermany et al., 2018), organized as `train/` and `test/`.
 
-- Training images used: [5,863 ]
-- Class distribution: [ NORMAL 0 / PNEUMONIA 1]
-- Validation strategy: [3 folders (train, test, val)]
+- Training images used: 5,232 (4,187 training / 1,045 validation)
+- Class distribution: NORMAL 0 / PNEUMONIA 1
+- Validation strategy: random 80/20 image-level split
 - Rules: CNNs and transfer learning allowed; no external medical datasets.
 
 ## 🧠 My Approach
 
-- **Model:** [TODO: exact architecture, e.g. ResNet50 pretrained on ImageNet]
-- **Preprocessing:** [TODO: resize, grayscale-to-3-channel, normalization]
-- **Augmentation:** [TODO: flips, rotation, brightness, etc.]
-- **Class imbalance handling:** [TODO: class weights / weighted sampler / none]
-- **Training setup:** [TODO: optimizer, learning rate, epochs, batch size, frozen vs fine-tuned layers]
-- **Frameworks:** Python, PyTorch / TensorFlow, OpenCV, scikit-learn [TODO: keep only what you used]
+- **Model:** custom CNN trained from scratch (no pretrained weights): 3 × [Conv2D (32/64/128 filters, 3×3, ReLU) + MaxPool], Flatten, Dense(128) + Dropout(0.5), softmax over 2 classes.
+- **Input / preprocessing:** images resized to 128×128 and rescaled to [0, 1]. No data augmentation and no class weighting.
+- **Training:** Adam (lr = 0.001), batch size 16, up to 10 epochs, early stopping on validation loss (patience 3, best weights restored), seed 25. About 12 minutes on a Kaggle notebook.
+- **Validation:** random 80/20 split of the training images (4,187 train / 1,045 validation).
+- **Framework:** Python, TensorFlow/Keras, NumPy, pandas, Matplotlib.
 
 ## 🔬 Analysis
 
-[TODO: add these once you have them]
+Validation accuracy peaked at about **96%** (96.17% at the epoch with the best validation loss), while the hidden test results were **78.37% accuracy and 72.86 Macro F1**. Possible causes, not yet verified:
 
-- Confusion matrix and per-class precision/recall (recall on PNEUMONIA matters most clinically)
-- Comparison with the simple CNN baseline
-- Ablations (e.g. with/without augmentation, frozen vs fine-tuned backbone)
-- Error analysis: what kinds of images are misclassified, and why
+- A random image-level split can place several X-rays of the same patient in both training and validation, which inflates validation accuracy. 
+- The test set may differ in distribution from the training set (different acquisition conditions or class balance). 
+- Accuracy above Macro F1 suggests the minority class is handled worse than the majority class; no per-class metrics were computed in this version.
+
+Planned improvements:
+
+- Report a confusion matrix and per-class precision/recall (recall on PNEUMONIA matters most clinically).
+- Use class weights or a weighted sampler for the imbalance.
+- Add augmentation and compare against a pretrained backbone (e.g. ResNet / DenseNet) with fine-tuning.
+- Use a stricter validation split that keeps each patient's images together.
 
 ## ⚠️ Limitations
 
-- The gap between accuracy (78.37%) and Macro F1 (72.86) shows the minority class is not handled perfectly.
-- The test set may differ in distribution from the training set, so performance on unseen data can be lower than validation performance. [TODO: confirm with your own validation vs test comparison]
-- This is a competition project, not a clinically validated tool.
+- Validation accuracy (~96%) is not a reliable estimate of real performance. The hidden-test result is the honest number.
+- No augmentation, class weighting, or transfer learning was used in this version.
+- This is a competition baseline, not a clinically validated tool.
 
 ## 🚀 Reproducing
 
 ```bash
 git clone https://github.com/Yousif2005/CXR.git
 cd CXR
-pip install -r requirements.txt   # [TODO: add requirements.txt]
-jupyter notebook starter-code.ipynb   # [TODO: or name of your own notebook]
+# open and run your notebook (CXR.ipynb)
 ```
 
 ## 🗂 Repository Contents
 
 | Path | Description |
 | :--- | :--- |
-| `starter-code.ipynb` | Starter notebook from the organizer [TODO: link or rename your own notebook] |
+| `CXR.ipynb` | Jupyter notebook  |
 | `evaluate.py`, `generate_leaderboard_html.py`, `final_leaderboard.csv`, `index.html` | Competition evaluation and leaderboard (organizer) |
 | `submission/`, `encryption/` | Encrypted submission workflow (organizer) |
 
